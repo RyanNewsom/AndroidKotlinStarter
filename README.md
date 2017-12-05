@@ -3,6 +3,7 @@
 
 ## About
 A starter project with base MVP, & my favorite libraries already added as well as Travis-Ci for continuous integration
+
 Libraries added:
 * Gson
 * RxJava & RxAndroid
