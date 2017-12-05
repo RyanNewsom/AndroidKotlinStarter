@@ -7,10 +7,7 @@ import java.util.*
 /**
  * Created by Ryan on 12/4/17.
  */
-class JsonParser {
-    // Util class
-    private constructor() {}
-
+object JsonParser {
     fun <T> convertJsonStringToObject(json: String, classOfT: Class<T>): T {
         val gson = Gson()
 
