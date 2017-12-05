@@ -1,0 +1,52 @@
+before_script:
+  # LinuxBrew set-up
+  # - sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+  # - sudo apt-get install build-essential
+  # - echo 'export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"' >>~/.bash_profile
+  # - echo 'export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"' >>~/.bash_profile
+  # - echo 'export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"' >>~/.bash_profile
+  # - PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+
+  # Fastlane set-up
+  # - rvm install 2.4.1
+  # - ruby -v
+  # - gem install fastlane
+
+  # Emulator Management: Create, Start and Wait
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+language: android
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    # - tools
+    # - platform-tools
+
+    # The BuildTools version used by your project
+    - build-tools-26.0.2
+
+    # The SDK version used to compile your project/run the emulator
+    - android-26
+    - android-22
+
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-22
+
+script:
+  - ./gradlew build
+  - ./gradlew testDebugUnitTest
+  - ./gradlew connectedCheck
+
+  # Fastlane deploy
+  # - fastlane android beta
